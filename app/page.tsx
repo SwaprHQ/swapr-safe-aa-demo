@@ -163,7 +163,7 @@ export default function Home() {
         <nav className="flex items-center w-full h-full justify-end">
           <div className="flex items-center space-x-4">
             <div>{safeBalance && formatUnits(safeBalance, "18")}</div>
-            <div>{safeSelected && truncatedAddress(safeSelected)}</div>
+            <div>{safeSelected && safeSelected}</div>
             <div>
               {isAuthenticated ? (
                 <Button onClick={logoutWeb3Auth}>Log out</Button>
