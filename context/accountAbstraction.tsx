@@ -50,7 +50,9 @@ type accountAbstractionContextValue = {
   otherBalances?: any[];
   setSafeSelected: React.Dispatch<React.SetStateAction<string>>;
   isRelayerLoading: boolean;
-  relayTransaction: (transaction: MetaTransactionData[]) => Promise<void>;
+  relayTransaction: (
+    transaction: MetaTransactionData[]
+  ) => Promise<string | undefined>;
   gelatoTaskId?: string;
   openStripeWidget: () => Promise<void>;
   closeStripeWidget: () => Promise<void>;
@@ -63,7 +65,7 @@ const initialState = {
   isAuthenticated: false,
   loginWeb3Auth: () => {},
   logoutWeb3Auth: () => {},
-  relayTransaction: async (transaction: MetaTransactionData[]) => {},
+  relayTransaction: async (transaction: MetaTransactionData[]) => undefined,
   setChainId: () => {},
   setSafeSelected: () => {},
   onRampWithStripe: async () => {},
