@@ -137,7 +137,7 @@ const AccountAbstractionProvider = ({
     (async () => {
       const options: Web3AuthOptions = {
         clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || "",
-        web3AuthNetwork: "testnet",
+        web3AuthNetwork: "mainnet",
         chainConfig: {
           chainNamespace: CHAIN_NAMESPACES.EIP155,
           chainId: chain.id,
