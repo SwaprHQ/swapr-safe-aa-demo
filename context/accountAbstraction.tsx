@@ -52,7 +52,7 @@ type accountAbstractionContextValue = {
   isRelayerLoading: boolean;
   relayTransaction: (
     transaction: MetaTransactionData[]
-  ) => Promise<string | undefined>;
+  ) => Promise<string | undefined | void>;
   gelatoTaskId?: string;
   openStripeWidget: () => Promise<void>;
   closeStripeWidget: () => Promise<void>;
@@ -65,7 +65,7 @@ const initialState = {
   isAuthenticated: false,
   loginWeb3Auth: () => {},
   logoutWeb3Auth: () => {},
-  relayTransaction: async (transaction: MetaTransactionData[]) => undefined,
+  relayTransaction: async (transaction: MetaTransactionData[]) => {},
   setChainId: () => {},
   setSafeSelected: () => {},
   onRampWithStripe: async () => {},

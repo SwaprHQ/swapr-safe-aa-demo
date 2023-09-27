@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const headers = {
   headers: {
-    Authorization: "Bearer d2QXijx360GWXIJfxAjuVuOraX8f5uOM",
+    Authorization: `Bearer ${process.env.ONEINCH_API_TOKEN}`,
     accept: "application/json",
   },
 };
