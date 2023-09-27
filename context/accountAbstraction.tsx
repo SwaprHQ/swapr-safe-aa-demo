@@ -354,6 +354,10 @@ const AccountAbstractionProvider = ({
 
       await safeAccountAbstraction.init({ relayPack });
 
+      if ((await safeAccountAbstraction.isSafeDeployed()) === false) {
+        return relayTransactionNotSponsered(transaction);
+      }
+
       const ethAdapter = new EthersAdapter({
         ethers,
         signerOrProvider: signer,
@@ -400,34 +404,36 @@ const AccountAbstractionProvider = ({
   };
 
   // relay-kit implementation using Gelato
-  // const relayTransaction = async (transaction: MetaTransactionData[]) => {
-  //   if (web3Provider) {
-  //     setIsRelayerLoading(true);
+  const relayTransactionNotSponsered = async (
+    transaction: MetaTransactionData[]
+  ) => {
+    if (web3Provider) {
+      setIsRelayerLoading(true);
 
-  //     const signer = web3Provider.getSigner();
-  //     const relayPack = new GelatoRelayPack(
-  //       "dHFos7pcBrG_vkHLSNuW6nBRADamuiuL46mMwyKLmE4_"
-  //     );
-  //     const safeAccountAbstraction = new AccountAbstraction(signer);
+      const signer = web3Provider.getSigner();
+      const relayPack = new GelatoRelayPack(
+        "dHFos7pcBrG_vkHLSNuW6nBRADamuiuL46mMwyKLmE4_"
+      );
+      const safeAccountAbstraction = new AccountAbstraction(signer);
 
-  //     await safeAccountAbstraction.init({ relayPack });
+      await safeAccountAbstraction.init({ relayPack });
 
-  //     const options: MetaTransactionOptions = {
-  //       isSponsored: true,
-  //       gasToken: ethers.constants.AddressZero, // native token
-  //     };
+      const options: MetaTransactionOptions = {
+        isSponsored: false,
+        gasToken: ethers.constants.AddressZero, // native token
+      };
 
-  //     const gelatoTaskId = await safeAccountAbstraction.relayTransaction(
-  //       transaction,
-  //       options
-  //     );
+      const gelatoTaskId = await safeAccountAbstraction.relayTransaction(
+        transaction,
+        options
+      );
 
-  //     setIsRelayerLoading(false);
-  //     setGelatoTaskId(gelatoTaskId);
+      setIsRelayerLoading(false);
+      setGelatoTaskId(gelatoTaskId);
 
-  //     return gelatoTaskId;
-  //   }
-  // };
+      return gelatoTaskId;
+    }
+  };
 
   // onramp-kit implementation
   const openStripeWidget = async () => {
