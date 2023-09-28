@@ -411,9 +411,7 @@ const AccountAbstractionProvider = ({
       setIsRelayerLoading(true);
 
       const signer = web3Provider.getSigner();
-      const relayPack = new GelatoRelayPack(
-        "dHFos7pcBrG_vkHLSNuW6nBRADamuiuL46mMwyKLmE4_"
-      );
+      const relayPack = new GelatoRelayPack();
       const safeAccountAbstraction = new AccountAbstraction(signer);
 
       await safeAccountAbstraction.init({ relayPack });
