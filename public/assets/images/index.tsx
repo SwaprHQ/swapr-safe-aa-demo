@@ -6,6 +6,7 @@ import EmptyStateStacksImg from "./empty-state-stacks-coins.svg";
 import EmptyStateTokenPickerImg from "./empty-state-token-picker.svg";
 import StacklyLogoNameImg from "./stackly-logo-name.svg";
 import StacklyBetaNFTImg from "./stackly-beta-nft.png";
+import SwaprLogo from "./swapr-logo.svg";
 
 export * from "./tokens";
 export {
@@ -15,4 +16,5 @@ export {
   EmptyStateTokenPickerImg,
   StacklyLogoNameImg,
   StacklyBetaNFTImg,
+  SwaprLogo,
 };

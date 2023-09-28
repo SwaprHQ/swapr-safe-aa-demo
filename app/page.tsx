@@ -13,6 +13,8 @@ import {
 import { useAccountAbstraction } from "../context/accountAbstraction";
 import { formatUnits, parseUnits } from "ethers/lib/utils";
 import { WETH, XDAI, tokensList } from "../constants";
+import { SwaprLogo } from "../public/assets";
+import Link from "next/link";
 
 export default function Home() {
   const [tokenAmount, setTokenAmount] = useState("");
@@ -165,7 +167,10 @@ export default function Home() {
   return (
     <div>
       <header className="top-0 flex flex-col w-full px-4 border-b border-solid h-nav-height bg-surface-25 border-b-surface-75">
-        <nav className="flex items-center w-full h-full justify-end">
+        <nav className="flex items-center w-full h-full justify-between">
+          <Link href="https://swapr.eth.limo" target="_blank">
+            <SwaprLogo className="h-5 md:h-7" />
+          </Link>
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
