@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BodyText,
   Button,
@@ -16,6 +16,24 @@ import { WETH, XDAI, tokensList } from "../constants";
 import { SwaprLogo } from "../public/assets";
 import Link from "next/link";
 
+const truncatedAddress = (address: string) =>
+  `${address.slice(0, 6)}...${address.slice(
+    address.length - 4,
+    address.length
+  )}`;
+
+let timer: ReturnType<typeof setTimeout> | undefined;
+function debounce<T extends (...args: Parameters<T>) => void>(
+  this: ThisParameterType<T>,
+  fn: T,
+  delay = 1000
+) {
+  return (...args: Parameters<T>) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 export default function Home() {
   const [tokenAmount, setTokenAmount] = useState("");
   const [sellToken, setSellToken] = useState(XDAI);
@@ -25,6 +43,8 @@ export default function Home() {
   const [isLoading, setLoading] = useState(false);
   const [transaction, setTransatcion] = useState();
   const [error, setError] = useState(false);
+  const [buyTokenAmount, setBuyTokenAmount] = useState("");
+
   const {
     isAuthenticated,
     loginWeb3Auth,
@@ -158,11 +178,32 @@ export default function Home() {
     }
   };
 
-  const truncatedAddress = (address: string) =>
-    `${address.slice(0, 6)}...${address.slice(
-      address.length - 4,
-      address.length
-    )}`;
+  useEffect(() => {
+    if (tokenAmount > "0") {
+      debounce(async () => {
+        const response = await fetch(
+          apiRequestUrl("/quote", {
+            src: sellToken.address,
+            dst: buyToken.address,
+            amount: parseUnits(tokenAmount, sellToken.decimals).toString(),
+          })
+        );
+
+        const result = await response.json();
+
+        setBuyTokenAmount(formatUnits(result.toAmount, buyToken.decimals));
+      })();
+    } else {
+      clearTimeout(timer);
+      setBuyTokenAmount("");
+    }
+  }, [
+    buyToken.address,
+    buyToken.decimals,
+    sellToken.address,
+    sellToken.decimals,
+    tokenAmount,
+  ]);
 
   return (
     <div>
@@ -238,6 +279,9 @@ export default function Home() {
                   setTokenAmount(event.target.value);
                 }}
               />
+              {buyTokenAmount && (
+                <BodyText>You will receive: {buyTokenAmount}</BodyText>
+              )}
               <BodyText className=" text-end">
                 Balance:{" "}
                 {sellToken === XDAI
