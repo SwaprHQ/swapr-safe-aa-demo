@@ -137,6 +137,8 @@ export default function Home() {
         setLoading(false);
         return;
       }
+    } else {
+      swapTransaction();
     }
   };
 
@@ -232,7 +234,7 @@ export default function Home() {
         </nav>
       </header>
       <main className="px-5">
-        <div className="max-w-lg mx-auto my-24 bg-white shadow-2xl rounded-2xl">
+        <div className="max-w-lg mx-auto mt-24 bg-white shadow-2xl rounded-2xl">
           <div className="py-4 border shadow-lg border-surface-50 rounded-2xl">
             <div className="flex items-end justify-between px-5 pb-4 border-b border-surface-50">
               <div className="space-y-1">
@@ -280,7 +282,9 @@ export default function Home() {
                 }}
               />
               {buyTokenAmount && (
-                <BodyText>You will receive: {buyTokenAmount}</BodyText>
+                <BodyText>
+                  You will receive: {buyTokenAmount} {buyToken.symbol}
+                </BodyText>
               )}
               <BodyText className=" text-end">
                 Balance:{" "}
@@ -319,6 +323,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Link href="https://swapr.eth.limo" target="_blank">
+          <BodyText className="font-normal text-center mt-6 underline">
+            Go to original Swapr.
+          </BodyText>
+        </Link>
         <Modal isOpen={modalOpen} closeAction={() => setModalOpen(false)}>
           <ModalContent className="mb-5 grid grid-cols-2 gap-4">
             {tokensList.map((token) => (
