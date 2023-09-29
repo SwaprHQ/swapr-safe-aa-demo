@@ -43,6 +43,7 @@ export default function Home() {
   const [isLoading, setLoading] = useState(false);
   const [transaction, setTransatcion] = useState();
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [buyTokenAmount, setBuyTokenAmount] = useState("");
 
   const {
@@ -130,7 +131,7 @@ export default function Home() {
             clearInterval(interval);
             throw "Cancelled";
           }
-        }, 1000);
+        }, 4000);
       } catch (error) {
         console.error(error);
         setError(true);
@@ -164,15 +165,19 @@ export default function Home() {
         );
         const responseJSON = await response.json();
         console.log(responseJSON);
+        if (responseJSON.task.transactionHash) {
+          setTransatcion(responseJSON.task.transactionHash);
+        }
         if (responseJSON.task.taskState === "ExecSuccess") {
           setLoading(false);
+          setSuccess(true);
           clearInterval(interval);
         }
         if (responseJSON.task.taskState === "Cancelled") {
           clearInterval(interval);
           throw "Cancelled";
         }
-      }, 1000);
+      }, 4000);
     } catch (error) {
       console.error(error);
       setError(true);
@@ -318,7 +323,14 @@ export default function Home() {
                 </Button>
               )}
               {error && (
-                <BodyText>Something went wrong! Please try again.</BodyText>
+                <BodyText className="text-center">
+                  Something went wrong! Please try again.
+                </BodyText>
+              )}
+              {success && (
+                <BodyText className="text-center">
+                  Swap succefully executed!
+                </BodyText>
               )}
             </div>
           </div>
